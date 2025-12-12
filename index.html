@@ -124,6 +124,64 @@
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
 
+        /* Scénarios VR 16:9 + lightbox */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 30px;
+        }
+        .scenario-card {
+            padding: 0;
+            overflow: hidden;
+            border-radius: var(--radius-xl);
+            cursor: pointer;
+        }
+        .scenario-card img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .scenario-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .lightbox-overlay.active {
+            display: flex;
+        }
+        .lightbox-content img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(15, 23, 42, 0.8);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 999px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
         .card {
             background: var(--bg-panel); border: 1px solid var(--border);
             border-radius: var(--radius-xl); padding: 30px;
@@ -414,6 +472,7 @@
             .budget-grid { grid-template-columns: 1fr; }
             .total-banner { grid-column: span 1; }
             .grid-3 { grid-template-columns: 1fr; }
+            .scenario-grid { grid-template-columns: 1fr; }
         }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
@@ -833,7 +892,6 @@
                                 <div style="width:40px; height:40px; background:var(--primary); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:10px;">
                                     <i class="fa-solid fa-robot"></i>
                                 </div>
-                                <h4 style="font-size:1rem;">Coach Orientation</h4>
                             </div>
 
                             <div class="chat-bubble chat-user">
@@ -940,30 +998,30 @@
                 La vue casque est retransmise pour l'apprentissage collectif.
             </p>
 
-            <div class="grid-4">
-                <div class="card" style="padding:0; overflow:hidden;">
-                    <img src="images/electricien.jpg" alt="Electricien" style="width:100%; height:180px; object-fit:cover;" onerror="this.src='https://placehold.co/400x300/1e293b/FFF?text=Electricien'">
+            <div class="grid-4 scenario-grid">
+                <div class="card scenario-card">
+                    <img class="scenario-img" src="images/electricien.jpg" alt="Electricien" onerror="this.src='https://placehold.co/400x300/1e293b/FFF?text=Electricien'">
                     <div style="padding:20px;">
                         <h4>Électricien Bâtiment</h4>
                         <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Mise hors tension, repérage, câblage tableau. Pédagogie sécurité.</p>
                     </div>
                 </div>
-                <div class="card" style="padding:0; overflow:hidden;">
-                    <img src="images/plombier.jpg" alt="Plombier" style="width:100%; height:180px; object-fit:cover;" onerror="this.src='https://placehold.co/400x300/1e293b/FFF?text=Plombier'">
+                <div class="card scenario-card">
+                    <img class="scenario-img" src="images/plombier.jpg" alt="Plombier" onerror="this.src='https://placehold.co/400x300/1e293b/FFF?text=Plombier'">
                     <div style="padding:20px;">
                         <h4>Plombier Chauffagiste</h4>
                         <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Raccordement vannes, identification fuites et intervention.</p>
                     </div>
                 </div>
-                <div class="card" style="padding:0; overflow:hidden;">
-                    <img src="images/logistique.jpg" alt="Logistique" style="width:100%; height:180px; object-fit:cover;" onerror="this.src='https://placehold.co/400x300/1e293b/FFF?text=Logistique'">
+                <div class="card scenario-card">
+                    <img class="scenario-img" src="images/logistique.jpg" alt="Logistique" onerror="this.src='https://placehold.co/400x300/1e293b/FFF?text=Logistique'">
                     <div style="padding:20px;">
                         <h4>Logistique / Picking</h4>
                         <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Scan, contrôle, constitution palette, règles de circulation.</p>
                     </div>
                 </div>
-                <div class="card" style="padding:0; overflow:hidden;">
-                    <img src="images/mecanicien.jpg" alt="Mecanicien" style="width:100%; height:180px; object-fit:cover;" onerror="this.src='https://placehold.co/400x300/1e293b/FFF?text=Mecanicien'">
+                <div class="card scenario-card">
+                    <img class="scenario-img" src="images/mecanicien.jpg" alt="Mecanicien" onerror="this.src='https://placehold.co/400x300/1e293b/FFF?text=Mecanicien'">
                     <div style="padding:20px;">
                         <h4>Mécanique Auto</h4>
                         <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Diagnostic panne, changement pièces, procédures constructeur.</p>
@@ -1133,10 +1191,6 @@
                             Usage à grande échelle du Web. Lancement de l'Atelier VR (Version Démo).
                             Premiers modules métiers en tension.
                         </p>
-                        <div class="roadmap-images">
-                            <img src="images/electricien.jpg" class="roadmap-img" alt="Illu" onerror="this.src='https://placehold.co/200x100/1e293b/FFF?text=Atelier+Elec'">
-                            <img src="images/logistique.jpg" class="roadmap-img" alt="Illu" onerror="this.src='https://placehold.co/200x100/1e293b/FFF?text=Atelier+Logistique'">
-                        </div>
                     </div>
                 </div>
 
@@ -1148,10 +1202,6 @@
                             Intégration Assistant IA rédactionnel (CV/Lettre). Densification du catalogue VR.
                             Matching prédictif offres/compétences.
                         </p>
-                        <div class="roadmap-images">
-                            <img src="images/plombier.jpg" class="roadmap-img" alt="Illu" onerror="this.src='https://placehold.co/200x100/1e293b/FFF?text=Plomberie'">
-                            <img src="images/mecanicien.jpg" class="roadmap-img" alt="Illu" onerror="this.src='https://placehold.co/200x100/1e293b/FFF?text=Mecanique'">
-                        </div>
                     </div>
                 </div>
 
@@ -1325,6 +1375,14 @@
         </div>
     </section>
 
+    <!-- Lightbox full-screen pour les images de scénarios -->
+    <div id="lightbox" class="lightbox-overlay">
+        <button class="lightbox-close" aria-label="Fermer l'image">&times;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Scénario immersif">
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <p>&copy; 2026 Projet Insertion + | Document Confidentiel - Mission Locale</p>
@@ -1366,6 +1424,30 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Lightbox pour les images de scénarios
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.querySelector('.lightbox-close');
+
+        document.querySelectorAll('.scenario-img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            lightboxImg.src = '';
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+                lightboxImg.src = '';
+            }
+        });
     </script>
 </body>
 </html>
